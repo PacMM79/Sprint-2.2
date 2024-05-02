@@ -2,7 +2,7 @@
 var products = [
     {
         id: 1,
-        name: 'cooking oil',
+        name: 'Cooking oil',
         price: 10.5,
         type: 'grocery',
         offer: {
@@ -78,7 +78,30 @@ var total = 0;
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array
+
+    const buyProduct = products.find(product => product.id === id);
+    
+        if (buyProduct) {
+            const existProduct = cart.find(product => product.id === id);
+    
+            if (existProduct) {
+                // If the product is already in the cart, increase its quantity
+                existProduct.quantity++;
+            } else {
+                // If the product is not in the cart, add it with a quantity of 1
+                const newProduct = { ...buyProduct, quantity: 1 };
+                cart.push(newProduct);
+            }
+    
+            // Update Cart Counter
+            countProductElement.innerText = cart.reduce((total, product) => total + product.quantity, 0);
+    
+            console.log(buyProduct.name + " Added to cart.");
+    
+        }
 }
+
+var countProductElement = document.getElementById('count_product');
 
 // Exercise 2
 function cleanCart() {
