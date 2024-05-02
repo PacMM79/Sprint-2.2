@@ -105,6 +105,12 @@ var countProductElement = document.getElementById('count_product');
 
 // Exercise 2
 function cleanCart() {
+    cart = [];
+    countProductElement.innerText = '0';
+    
+    // Reset Cart total price to 0
+    total = 0;
+    console.log('Cart is cleaned.');
 
 }
 
