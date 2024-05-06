@@ -98,6 +98,10 @@ function buy(id) {
     
             console.log(buyProduct.name + " Added to cart.");
     
+        // Recalculate the global total after updating the cart
+        total = calculateTotal();
+        totalPriceElement.innerText = total.toFixed(2);
+        console.log("Total= " + calculateTotal())    
         }
 }
 
@@ -117,7 +121,10 @@ function cleanCart() {
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
+    return cart.reduce((total, product) => total + product.price * product.quantity, 0);
 }
+
+var totalPriceElement = document.getElementById('total_price');
 
 // Exercise 4
 function applyPromotionsCart() {
