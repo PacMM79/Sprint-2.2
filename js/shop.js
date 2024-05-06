@@ -114,7 +114,11 @@ function cleanCart() {
     
     // Reset Cart total price to 0
     total = 0;
+    totalPriceElement.innerText = total.toFixed(2);
     console.log('Cart is cleaned.');
+
+    // Update the modal content after cleaning the cart
+    open_modal();
 
 }
 
@@ -157,8 +161,76 @@ function applyPromotionsCart() {
 // Exercise 5
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    // Clear previous content in the modal body
+    cartListElement.innerHTML = '';
+
+    // Fill the shopping cart modal manipulating the shopping cart dom
+    
+     // Check if the cart is not empty
+    if (cart.length > 0) {
+        var totalPrice = 0;
+        var groupedCart = groupCartByProduct();
+    
+        for (var productID in groupedCart) {
+            if (groupedCart.hasOwnProperty(productID)) {
+                var product = groupedCart[productID][0]; // Take the first item as they are the same product
+                var quantity = groupedCart[productID].reduce((total, item) => total + item.quantity, 0);
+    
+                // Only display products with a quantity greater than zero
+                if (quantity > 0) {
+                    // Calculate total price for the product (with discount if applicable)
+                    var discount = product.discountPercent || 0;
+                    var productTotal = product.price * quantity * (1 - discount / 100);
+                    totalPrice += productTotal;
+    
+                    // Create a new row for each product in the cart_list tbody
+                    var row = cartListElement.insertRow();
+                    row.innerHTML = `
+                        <td>${product.name}</td>
+                        <td>$${product.price.toFixed(2)}</td>
+                        <td>${quantity}</td>
+                        <td>$${productTotal.toFixed(2)}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-success btn-sm" onclick="buy(${product.id})">
+                                +1
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeFromCart(${product.id})">
+                                -1
+                            </button>
+                        </td>
+                    `;
+                }
+            }
+        }
+    
+            // Update the total_price span
+            totalPriceElement.innerText = totalPrice.toFixed(2);
+        } else {
+            // IF the cart is empty, display a message in the cart_list tbody
+            var emptyRow = cartListElement.insertRow();
+            var cell = emptyRow.insertCell(0);
+            cell.colSpan = 4;
+            cell.textContent = 'Your cart is empty.';
+        }
+    }
+    
+    
+    function groupCartByProduct() {
+        //Create a map to group cart items by product id
+        var groupedCart = {};
+    
+        for (var i = 0; i < cart.length; i++) {
+            var productID = cart[i].id;
+    
+            if(!groupedCart[productID]) {
+                groupedCart[productID] = [];
+            }
+            groupedCart[productID].push(cart[i]);
+        }
+        return groupedCart;
 }
 
+var cartListElement = document.getElementById('cart_list');
 
 // ** Nivell II **
 
@@ -168,5 +240,9 @@ function removeFromCart(id) {
 }
 
 function open_modal() {
+    // Apply promotions before printing the cart
+    applyPromotionsCart();
+    // Reset the total price to 0
+    total = 0; 
     printCart();
 }
