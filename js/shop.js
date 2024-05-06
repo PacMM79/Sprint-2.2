@@ -236,7 +236,45 @@ var cartListElement = document.getElementById('cart_list');
 
 // Exercise 7
 function removeFromCart(id) {
+    // Find the index of the product with the given id in the cart
+    const index = cart.findIndex(product => product.id === id);
 
+    // If the product is in the cart
+    if (index !== -1) {
+        // Decrease the quantity by 1
+        cart[index].quantity--;
+
+        // If the quantity becomes zero, remove the product from the cart and the corresponding row from the modal
+        if (cart[index].quantity === 0) {
+            const removedProduct = cart.splice(index, 1)[0];
+
+            // If the cart is not empty, recalculate the global total by applying discounts to all products
+            if (cart.length > 0) {
+                total = calculateTotal();
+                totalPriceElement.innerText = total.toFixed(2);
+            } else {
+                // If the cart is empty, reset the total to 0
+                total = 0;
+                totalPriceElement.innerText = total.toFixed(2);
+            }
+
+            // Update promotions after modifying the cart
+            applyPromotionsCart();
+        } else {
+            // If the quantity is not zero, recalculate the global total after updating the cart and applying promotions
+            total = calculateTotal();
+            totalPriceElement.innerText = total.toFixed(2);
+
+            // Update promotions after modifying the cart
+            applyPromotionsCart();
+        }
+
+        // Update the count product element
+        countProductElement.innerText = cart.reduce((total, product) => total + product.quantity, 0);
+
+        // Explicitly call printCart to update the modal content
+        printCart();
+    }
 }
 
 function open_modal() {
