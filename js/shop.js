@@ -101,7 +101,11 @@ function buy(id) {
         // Recalculate the global total after updating the cart
         total = calculateTotal();
         totalPriceElement.innerText = total.toFixed(2);
-        console.log("Total= " + calculateTotal())    
+        console.log("Total= " + calculateTotal())
+                
+        // Call applyPromotionsCart and printCart after updating the cart
+        applyPromotionsCart();
+        printCart();
         }
 }
 
