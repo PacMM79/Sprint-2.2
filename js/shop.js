@@ -129,7 +129,30 @@ var totalPriceElement = document.getElementById('total_price');
 // Exercise 4
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
-}
+    // Loop through each product in the cart
+    for (var i = 0; i < cart.length; i++) {
+        var product = cart[i];
+    
+        // Check if the product has an offer and apply the discount
+        if (product.offer) {
+            var quantity = cart.reduce((total, item) => (item.id === product.id ? total + item.quantity : total), 0);
+    
+            if (quantity >= product.offer.number) {
+                // Set the discount percentage for the product
+                product.discountPercent = product.offer.percent;
+                console.log('Discount applied');
+            } else {
+                // No applicable offer, so set discountPercent to 0
+                product.discountPercent = 0;
+            }
+            }
+        }
+    }
+    // Helper function to calculate the discount for a product
+    function calculateDiscount(product) {
+        return (product.discountPercent / 100) * product.price * product.quantity;
+    
+}    
 
 // Exercise 5
 function printCart() {
