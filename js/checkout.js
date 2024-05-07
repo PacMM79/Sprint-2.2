@@ -1,4 +1,3 @@
-
 // Exercise 6
 function validate() {
     var error = 0;
@@ -14,69 +13,69 @@ function validate() {
     var errorName = document.getElementById("errorName");
     var errorLastN = document.getElementById("errorLastN");
     var errorPassword = document.getElementById("errorPassword");
-    var errorEmail = document.getElementById("errorEmail");  
+    var errorEmail = document.getElementById("errorEmail");
     var errorPhone = document.getElementById("errorPhone");
     var errorAddress = document.getElementById("errorAddress");
-    
-    // Reset error messages and hide them initially
-    resetErrorMessage(errorName);
-    resetErrorMessage(errorLastN);
-    resetErrorMessage(errorPassword);
-    resetErrorMessage(errorEmail);
-    resetErrorMessage(errorPhone);
-    resetErrorMessage(errorAddress);
-    
-    // Validation for First Name
-    if (!/^[a-zA-Z]+$/.test(fName.value.trim()) || fName.value.length < 3 ) {
-        displayErrorMessage(errorName, "This field is required and must have, at least, 3 characters");
+	
+    // Validate fields entered by the user: name, phone, password, and email
+    if (fName.value.length < 3 || !/^[a-zA-Z]+$/.test(fName.value)) {
+        error++;
+        fName.classList.add("is-invalid");
+        errorName.innerText = "Invalid name. Must contain at least 3 letters.";
+    } else {
+        fName.classList.remove("is-invalid");
+        errorName.innerText = "";
     }
 
-    // Validation for Last Name
-    if (!/^[a-zA-Z]+$/.test(fLastN.value.trim()) || fLastN.value.length < 3 )  {
-        displayErrorMessage(errorLastN, "This field is required and must have, at least, 3 characters");
+    if (fLastN.value.length < 3 || !/^[a-zA-Z]+$/.test(fLastN.value)) {
+        error++;
+        fLastN.classList.add("is-invalid");
+        errorLastN.innerText = "Invalid name. Must contain at least 3 letters.";
+    } else {
+        fLastN.classList.remove("is-invalid");
+        errorLastN.innerText = "";
     }
 
-    // Validation for Password
-    if (fPassword.value.length < 4 || fPassword.value.length > 8) {
-        displayErrorMessage(errorPassword, "Enter a password with 4 to 8 characters");
+    if (fPhone.value.length !== 9 || isNaN(fPhone.value)) {
+        error++;
+        fPhone.classList.add("is-invalid");
+        errorPhone.innerText = "Invalid phone number.";
+    } else {
+        fPhone.classList.remove("is-invalid");
+        errorPhone.innerText = "";
     }
 
-    // Validation for Email
-	var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(fEmail.value.trim())) {
-    // if (fEmail.value.trim() === "" || !fEmail.value.includes("@") || fEmail.value.length < 3) {
-        displayErrorMessage(errorEmail, "This field required a valid email format");
+    if (fPassword.value.length < 4 || !/\d/.test(fPassword.value) || !/[a-zA-Z]/.test(fPassword.value)) {
+        error++;
+        fPassword.classList.add("is-invalid");
+        errorPassword.innerText = "Invalid password. Must be 4-8 characters and include both numbers and letters.";
+    } else {
+        fPassword.classList.remove("is-invalid");
+        errorPassword.innerText = "";
     }
 
-    // Validation for Phone Number
-    if (!/^\d{9}$/.test(fPhone.value)) {
-        displayErrorMessage(errorPhone, "Invalid phone number!!! Must be 9 digits with no letters");
+    if (fEmail.value.length < 3 || !fEmail.value.includes("@")) {
+        error++;
+        fEmail.classList.add("is-invalid");
+        errorEmail.innerText = "Invalid email. Must contain '@'.";
+    } else {
+        fEmail.classList.remove("is-invalid");
+        errorEmail.innerText = "";
     }
 
-    // Validation for Address
-    if (fAddress.value.trim() === "" || fAddress.value.length < 3 ) {
-        displayErrorMessage(errorAddress, "This field is required and must have, at least, 3 characters");
+    if (fAddress.value.length < 3) {
+        error++;
+        fAddress.classList.add("is-invalid");
+        errorAddress.innerText = "Invalid address.";
+    } else {
+        fAddress.classList.remove("is-invalid");
+        errorAddress.innerText = "";
     }
 
-    // Check if there are any errors
-    var errors = document.querySelectorAll(".invalid-feedback");
-    if (Array.from(errors).some((error) => error.textContent !== "")) {
-        // There are errors, prevent form submission
-        return false;
+    if (error > 0) {
+        alert("Error: Please review fields in red color.");
+    } else {
+        alert("OK: Form sent, Thanks!");
+		document.getElementById("checkoutForm").submit();
     }
-
-    // No errors, allow submission
-    return true;
-}
-
-// Helper function to display an error message
-function displayErrorMessage(errorElement, message) {
-    errorElement.textContent = message;
-    errorElement.style.display = "block";
-}
-
-// Helper function to reset and hide an error message
-function resetErrorMessage(errorElement) {
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
 }
