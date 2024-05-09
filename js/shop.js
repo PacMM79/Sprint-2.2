@@ -30,12 +30,9 @@ function buy(id) {
             // Update Cart Counter
             countProductElement.innerText = cart.reduce((total, product) => total + product.quantity, 0);
     
-            console.log(buyProduct.name + " Added to cart.");
-    
         // Recalculate the global total after updating the cart
         total = calculateTotal();
         totalPriceElement.innerText = total.toFixed(2);
-        console.log("Total= " + calculateTotal())
                 
         // Call applyPromotionsCart and printCart after updating the cart
         applyPromotionsCart();
@@ -53,7 +50,6 @@ function cleanCart() {
     // Reset Cart total price to 0
     total = 0;
     totalPriceElement.innerText = total.toFixed(2);
-    console.log('Cart is cleaned.');
 
     // Update the modal content after cleaning the cart
     open_modal();
@@ -82,7 +78,6 @@ function applyPromotionsCart() {
             if (quantity >= product.offer.number) {
                 // Set the discount percentage for the product
                 product.discountPercent = product.offer.percent;
-                console.log('Discount applied');
             } else {
                 // No applicable offer, so set discountPercent to 0
                 product.discountPercent = 0;
