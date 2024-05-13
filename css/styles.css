@@ -11287,3 +11287,20 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.shop_header {
+  background-image: url("../images/shop_header.jpg");
+  background-position: left;
+}
+.banner {
+  animation: moverArr 2s ease-in;
+}
+@keyframes moverArr {
+  0% {
+      opacity: 0;
+      transform: translateY(150px);
+  }  
+  100% {
+      opacity: 1;
+      translate: (0);
+  }
+}  
